@@ -1,0 +1,42 @@
+name: Cypress PoC (Tag-Based)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-cypress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Cypress tests (chumbado com @smoke)
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          command: npx cypress run --env grep=@smoke
+
+      - name: Upload Cypress screenshots (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Cypress videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
