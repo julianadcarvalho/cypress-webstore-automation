@@ -10,6 +10,8 @@ describe('shopping', () => {
     browser.abrirBrowser();
   });
 
+  
+
   it('Clicar em SIGN IN, renderizar página e criar conta [@login,@register]', () => {
     register.fazerLogin();
     register.fazerCadastro();
