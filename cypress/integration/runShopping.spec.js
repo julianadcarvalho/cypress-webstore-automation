@@ -22,4 +22,6 @@ describe('shopping', () => {
     buy.pesquisarAdicionar();
   });
 
+  //teste
+  
 });
